@@ -1,0 +1,77 @@
+<!-- PARTIAL VIEW - Modal -->
+<div class="modal fade" id="scheduleModal" tabindex="-1" aria-labelledby="scheduleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <form type="post" action="/Scheduler" th:object="${scheduler}">
+            <div class="modal-header">
+            <h5 class="modal-title" id="scheduleModalLabel">Schedule Device</h5>
+            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="container">
+                                <div class="row mb-2">
+                                    <div class="col-12">
+                                        <label for="freq" class="form-label">Frequency</label>
+                                        <div class="input-group">
+                                            <select class="custom-select" required id="freq" name="freq">
+                                                <option value="" selected disabled>Select...</option>
+                                                <option text="repated" value="repeated">Repeated</option>
+                                                <option text="one-time" value="one-time">One Time</option>
+                                            </select>  
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-12">
+                                        <label for="appt" class="form-label">Time</label>
+                                        <div class="input-group">
+                                            <input class="form-control" required type="time" id="appt" name="appt" >
+                                        </div>
+                                    </div>
+                                </div>  
+                                <div class="row">
+                                    <div class="col-1" id="daysColumn">
+                                        <label for="M" class="form-label">M</label>
+                                        <input class="" type="checkbox" id="M" name="M" value="M"></input>
+                                    </div>
+                                    <div class="col-1">
+                                        <label for="T" class="form-label">T</label>
+                                        <input class="" type="checkbox" id="T" name="T" value="T"></input>
+                                    </div>                             
+                                    <div class="col-1">
+                                        <label for="W" class="form-label">W</label>
+                                        <input class="" type="checkbox" id="W" name="W" value="W"></input>
+                                    </div>                             
+                                    <div class="col-1">
+                                        <label for="Th" class="form-label">T</label>
+                                        <input class="" type="checkbox" id="Th" name="Th" value="Th"></input>
+                                    </div>                             
+                                    <div class="col-1">
+                                        <label for="F" class="form-label">F</label>
+                                        <input class="" type="checkbox" id="F" name="F" value="F"></input>
+                                    </div>                             
+                                    <div class="col-1">
+                                        <label for="S" class="form-label">S</label>
+                                        <input class="" type="checkbox" id="S" name="S" value="S"></input>
+                                    </div>                             
+                                    <div class="col-1">
+                                        <label for="Sun" class="form-label">S</label>
+                                        <input class="" type="checkbox" id="Sun" name="Sun" value="Sun"></input>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button id="submit-schedule" class="btn btn-primary">Submit</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>

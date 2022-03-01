@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/styles/global.css}" rel="stylesheet" />
+    <title>Scheduler</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" 
+      integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" 
+      crossorigin="anonymous"></script>
+
+    <!-- toastr for notifcations -->
+    <script type="text/javascript" src="/js/toastr.min.js"></script>
+
+    <script type="text/javascript" src="/js/scheduler.js"></script>
+</head>
+    <input id="serialNumbers" type="hidden" th:value="${serialNumbers}"/>
+    <!-- <div th:text="${serialNumbers}"></div> -->
+    <input id="mv" type="hidden" th:value="${deviceList}"/>
+    <!-- PARTIAL HEADER VIEW -->
+        <div th:insert="_partialHeader.html"></div>
+        <div class="main-content">
+            <div class="container">
+                <div class="row mt-3">
+                    <div class="card w-100">
+                        <div class="card-title mt-3 ml-3">
+                        </div>
+                        <div th:if="${#lists.isEmpty(deviceList)}" class="card-body overflow-auto">
+                            <!-- If no Devices... -->
+                            <div class="text-center"> 
+                                <em>No Devices Available. Please <a href="/SweepRegistration">add a device.</a></em>
+                            </div>  
+                        </div>
+                        <div th:if="${#lists.isEmpty(deviceList) == false}" class="card-body overflow-auto">
+                            <table class="table table-dark">
+                                <thead>
+                                    <tr>
+                                        <th colspan="4"><h1><b>MY DEVICES</b></h1></th>
+                                    </tr>
+                                    <tr>
+                                        <th colspan="1">Serial Number</th>
+                                        <th colspan="2">Current Schedule</th>
+                                        <th colspan="1"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <!-- Otherwise... -->
+                                <tr th:each="device : ${deviceList}" th:id="'deviceRow-' + ${device.deviceId}">
+                                    <td colspan="1"><span th:text="${device.serialNumber}">Serial Number</span></td>
+                                    <td colspan="1" id="no-device-row" th:if="${device.scheduler?.freq == null}">
+                                        <span><em>No Schedule For This Device.</em></span>
+                                    </td>
+                                    <td class="d-flex text-white" colspan="2" th:if="${device.scheduler?.freq != null}">
+                                        <pre><b>Days: </b></pre>
+                                        <pre th:if="${device.scheduler.M}"> Mon | </pre>
+                                        <pre th:if="${device.scheduler.T}"> Tue | </pre>
+                                        <pre th:if="${device.scheduler.W}"> Wed | </pre>
+                                        <pre th:if="${device.scheduler.Th}"> Thu | </pre>
+                                        <pre th:if="${device.scheduler.F}"> Fri | </pre>
+                                        <pre th:if="${device.scheduler.S}"> Sat | </pre>
+                                        <pre th:if="${device.scheduler.Sun}"> Sun | </pre>
+                                        <pre><b>Time: </b></pre><pre th:text="${device.scheduler?.appt} + ' | '" ></pre>
+                                        <pre><b>Type: </b></pre><pre th:text="${device.scheduler?.freq}"></pre>
+                                    </td>
+                                    <!-- Modal column -->
+                                    <td colspan="1">         
+                                        <!-- Button trigger modal -->
+                                        <!-- <div th:insert="_schedule-modal.html"></div> -->
+                                        <!-- PARTIAL VIEW - START MODAL -->
+                                            <div class="modal fade" id="scheduleModal" tabindex="-1" aria-labelledby="scheduleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                    <form type="post" action="/Scheduler" th:object="${scheduler}">
+                                                        <div class="modal-header">
+                                                            <input id="modal-hidden-serialNumber" type="hidden" th:text="${device.serialNumber}">
+                                                        <h5 class="modal-title" id="scheduleModalLabel" th:text="${device.serialNumber + ' - Schedule Device'}"></h5>
+                                                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><i class="fas fa-times"></i></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="container">
+                                                                <div class="row">
+                                                                    <div class="col-12">
+                                                                        <div class="container">
+                                                                            <div class="row mb-2">
+                                                                                <div class="col-12">
+                                                                                    <label for="freq" class="form-label">Frequency</label>
+                                                                                    <div class="input-group">
+                                                                                        <select class="custom-select" required id="freq" name="freq">
+                                                                                            <option value="" selected disabled>Select...</option>
+                                                                                            <option text="repated" value="repeated">Repeated</option>
+                                                                                            <option text="one-time" value="one-time">One Time</option>
+                                                                                        </select>  
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row mb-3">
+                                                                                <div class="col-12">
+                                                                                    <label for="appt" class="form-label">Time</label>
+                                                                                    <div class="input-group">
+                                                                                        <input class="form-control" required type="time" id="appt" name="appt" >
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>  
+                                                                            <div class="row">
+                                                                                <div class="col-1" id="daysColumn">
+                                                                                    <label for="M" class="form-label">M</label>
+                                                                                    <input class="" type="checkbox" id="M" name="M" value="M"></input>
+                                                                                </div>
+                                                                                <div class="col-1">
+                                                                                    <label for="T" class="form-label">T</label>
+                                                                                    <input class="" type="checkbox" id="T" name="T" value="T"></input>
+                                                                                </div>                             
+                                                                                <div class="col-1">
+                                                                                    <label for="W" class="form-label">W</label>
+                                                                                    <input class="" type="checkbox" id="W" name="W" value="W"></input>
+                                                                                </div>                             
+                                                                                <div class="col-1">
+                                                                                    <label for="Th" class="form-label">T</label>
+                                                                                    <input class="" type="checkbox" id="Th" name="Th" value="Th"></input>
+                                                                                </div>                             
+                                                                                <div class="col-1">
+                                                                                    <label for="F" class="form-label">F</label>
+                                                                                    <input class="" type="checkbox" id="F" name="F" value="F"></input>
+                                                                                </div>                             
+                                                                                <div class="col-1">
+                                                                                    <label for="S" class="form-label">S</label>
+                                                                                    <input class="" type="checkbox" id="S" name="S" value="S"></input>
+                                                                                </div>                             
+                                                                                <div class="col-1">
+                                                                                    <label for="Sun" class="form-label">S</label>
+                                                                                    <input class="" type="checkbox" id="Sun" name="Sun" value="Sun"></input>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                                            <button id="submit-schedule" class="btn btn-primary">Submit</button>
+                                                        </div>
+                                                    </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <!-- PARTIAL VIEW - END MODAL -->
+                                        <button type="button" class="btn btn-secondary color-warning" th:attr="data-deviceId=${device.deviceId}" data-bs-toggle="modal" data-bs-target="#scheduleModal">
+                                            Update
+                                        </button>
+                                    </td>
+                                    <td colspan="1">
+                                        <button class="btn btn-danger" id="delete-schedule-button">Delete</button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>      
+        </div>
+        <!-- PARTIAL FOOTER VIEW -->
+        <div th:insert="_partialFooter.html"></div>
+</body>
+</html>

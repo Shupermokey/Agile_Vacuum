@@ -1,0 +1,33 @@
+<!-- PARTIAL VIEW -->
+<div class="container w-100" xmlns:th="http://www.w3.org/1999/xhtml">
+    <div class="row mt-2">
+        <div class="col-12">
+            <ul class="nav rounded">
+                <li class="nav-item">
+                    <a class="nav-link text-white active standard-hover" href="Scheduler">HOME</a>
+                </li>
+                <li>
+                    <img class="resize" th:src="@{/images/robot-vacuum-cleaner.png}" alt="vaccumIcon">
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white active standard-hover" href="SweepRegistration">ADD DEVICE</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white active standard-hover" href="ControlSystem">LOGS</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link text-white active standard-hover" href="SensorSimulator">VISUALIZE</a>
+                </li>
+                <li class="nav-item overflow-hidden color-warning ml-auto">
+                    <a class="nav-link disabled loggedInUser" th:text="${session.email}"></a>
+                </li>
+                <li class="nav-item ml-auto color-warning">
+                    <form method="post" action="Logout">
+                        <button class="nav-link btn btn-link color-white font-weight-bold standard-hover" type="submit" value="Submit">LOGOUT</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

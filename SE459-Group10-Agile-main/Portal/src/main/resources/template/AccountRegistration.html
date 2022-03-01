@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/styles/global.css}" rel="stylesheet" />
+    <title>Account Registration</title>
+</head>
+<body>
+
+    <div class="container d-flex h-100">
+        <div class="row align-self-center w-100">
+            <div class="col-6 mx-auto" >
+                <div class="card">
+                    <!-- <img src="robot-vacuum-cleaner.png" alt="vaccumIcon"> -->
+                    <div class="card-body">
+                        <h3 class="card-title text-center add-logo">Register Account</h3>
+                        <div class="color-warning p-3"  th:if="${not #strings.isEmpty(AccountStatus)}" th:text="'*' + ${AccountStatus}"></div>
+                        <div class="container w-100">
+                           <form action="createAccount" method="Post">
+                        
+                            <div class="row w-100">
+                                <div class="col-12">
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" name="email" placeholder="Email Address" aria-label="Email Address">
+                                      </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" placeholder="Proposed Password" aria-label="Proposed Password">
+                                    </div>                            
+                                </div>
+                                <div class="col-12">
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" name="password" placeholder="Confirm Password" aria-label="Confirm Password">
+                                    </div>                            
+                                </div>
+                                
+                            </div>
+                            <div class="row mb-3">
+                                <!-- TODO: Client/Server code to Register New Account (possibly more clientside validation prior to registration too) -->
+                                <button class="btn btn-primary btn-lg btn-block">Register</button>
+                            </div>
+                           
+                            <div class="row">
+                                <a href="Login" class="btn btn-secondary bg-light text-primary btn-lg btn-block" role="button">Back to Login</a>
+                            </div>
+                             </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

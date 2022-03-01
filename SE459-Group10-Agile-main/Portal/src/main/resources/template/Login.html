@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link th:href="@{/styles/global.css}" rel="stylesheet" />
+        <title>Login</title>
+        </style>
+    </head>
+    <body>
+
+        <div class="container d-flex h-100">
+            <div class="row align-self-center w-100">
+                <div class="col-6 mx-auto" >
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title text-center font-weight-bold add-logo">CleanSweep Login</h3>
+                            <div class="color-warning p-3" th:text="${AccountStatus}"></div>
+                            <div class="container w-100">
+                                <form action="Login" method="post" th:object="${Account}">
+                                <div class="row w-100">
+                                    <div class="col-12">
+                                        <div th:if="${Error}" th:text="${Error.getMessage()}" class="color-warning mb-1"></div>
+                                        <div class="input-group mb-3">
+                                            <input type="text" class="form-control" placeholder="Username" name="email">
+                                          </div>
+                                    </div>
+                                </div>
+                                <div class="row w-100">
+                                    <div class="col-12">
+                                        <div class="input-group mb-3">
+                                            <input type="text" class="form-control" placeholder="Password"name="pass">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <button class="btn btn-primary btn-lg btn-block">Login</button>
+                                </div>
+                                <div class="row">
+                                    <a href="AccountRegistration" class="btn btn-secondary bg-light text-primary btn-lg btn-block" role="button">Register User</a>
+                                </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/styles/global.css}" rel="stylesheet" />
+    <title>Device Registration</title>
+</head>
+<body>
+    <div th:insert="_partialHeader.html"></div>
+        <div class="container d-flex h-100">
+            <div class="row align-self-center w-100">
+                <div class="col-6 mx-auto" >
+                    <div class="card">
+                        <!-- <img src="robot-vacuum-cleaner.png" alt="vaccumIcon"> -->
+                        <div class="card-body">
+                            <h3 class="card-title text-center">Device Registration</h3>
+                            <div class="container w-100">
+                            <form action="/addDevice" method="post">
+                                <div class="row mx-auto w-100">
+                                    <div class="col-12">
+                                        <div class="input-group mb-3">
+                                            <input type="text" class="form-control" name="serialNumber" placeholder="CleanSweep Serial #" aria-label="CleanSweep Serial Number" min="3" max="5" required="required">
+                                        </div>
+                                    </div>
+                                <div class="row mb-3 mx-auto w-100">
+                                    <div class="col-6 w-50">
+                                        <a class="btn btn-secondary bg-light text-primary btn-lg btn-block" role="button" href="/">Cancel</a>
+                                    </div>
+                                    <div class="col-6 w-50">
+                                        <!-- TODO: Register Device client/server code -->
+                                        <button class="btn btn-primary btn-lg btn-block">Register</button>
+                                    </div>
+                                </div>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>    
+    </div>
+    <div th:insert="_partialFooter.html"></div>
+</body>
+</html>
